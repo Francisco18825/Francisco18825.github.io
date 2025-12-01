@@ -1,0 +1,132 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio de Sesión</title>
+  <style>
+    /* Tu CSS original intacto */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: #faefb4; font-family: 'Poppins', sans-serif; }
+    header {
+      background-color: #1aa5b8;
+      padding: 20px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    nav a {
+      color: #fff; text-decoration: none; margin-left: 20px; font-size: 16px;
+    }
+    nav a:hover { text-decoration: underline; }
+    .background {
+      width: 430px; height: 520px; position: absolute;
+      left: 50%; top: 50%; transform: translate(-50%, -50%);
+    }
+    .background .shape {
+      height: 200px; width: 200px; position: absolute; border-radius: 50%;
+    }
+    .shape:first-child {
+      background: linear-gradient(#1845ad, #23a2f6);
+      left: -80px; top: -80px;
+    }
+    .shape:last-child {
+      background: linear-gradient(to right, #ff512f, #f09819);
+      right: -30px; bottom: -80px;
+    }
+    form {
+      height: 520px; width: 400px; background: rgba(168, 143, 143, 0.13);
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 10px; backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 40px rgba(8,7,16,0.6);
+      padding: 50px 35px;
+    }
+    form h3 {
+      font-size: 32px; font-weight: 500; text-align: center; color: #cf1f1f;
+    }
+    label {
+      display: block; margin-top: 30px; font-size: 16px; font-weight: 500; color: #cf1f1f;
+    }
+    input {
+      display: block; height: 50px; width: 100%;
+      background: rgba(238, 74, 74, 0.07); border-radius: 3px;
+      padding: 0 10px; margin-top: 8px; font-size: 14px; color: #000000;
+    }
+    button {
+      margin-top: 40px; width: 100%; background: #00bcd4; color: #cf1f1f;
+      padding: 15px 0; font-size: 18px; font-weight: 600;
+      border: none; border-radius: 5px; cursor: pointer;
+    }
+    button:hover { background: #0097a7; }
+    .registro-link {
+      display: block; text-align: center; margin-top: 20px;
+      color: #cf1f1f; text-decoration: none;
+    }
+    .registro-link:hover { text-decoration: underline; }
+    footer {
+      text-align: center;
+      background-color: #1aa5b8;
+      color: #000000;
+      padding: 20px 0;
+      font-size: 14px;
+      margin-top: 450px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo-removebg-preview.png" width="160" alt="Logo">
+    <nav>
+      <a href="rutinas_y_equipos.html">Rutinas y Equipos del GYM</a>
+      <a href="registro.html">Registro</a>
+      <a href="pagina_principal.html"><img src="home-icon-vector-removebg-preview.png" width="80" alt="Inicio"></a>     
+    </nav>
+  </header>
+
+  <div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+
+  <form id="loginForm" method="POST">
+    <h3>INICIAR SESIÓN</h3>
+    <label for="matricula">MATRÍCULA</label>
+    <input type="text" id="matricula" name="matricula" required>
+
+    <label for="contrasena">CONTRASEÑA</label>
+    <input type="password" id="contrasena" name="contrasena" required>
+
+    <button type="submit">INGRESAR</button>
+
+    <a class="registro-link" href="registro.html">¿NO TIENE CUENTA? REGÍSTRATE</a>
+  </form>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+
+      fetch('conexion_inicio_sesion.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = 'reserva.php';
+        } else {
+          return response.text().then(text => { throw new Error(text); });
+        }
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+    });
+  </script>
+
+  <footer>
+    GYM, UPT. (2025)
+  </footer>
+</body>
+</html>

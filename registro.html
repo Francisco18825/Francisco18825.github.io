@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro</title>
+  <style>
+    /* --- ESTILO DEL HEADER --- */
+    body {
+      background-image: url('reg.jpg');
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    header {
+      background-color: #1aa5b8;
+      padding: 15px 200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header img {
+      position: static;
+    }
+
+    nav a {
+      color: #000000;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* --- FORMULARIO --- */
+    form {
+      width: 400px;
+      background-color: rgba(214, 24, 24, 0.13);
+      margin: 50px auto;
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(10, 9, 9, 0.1);
+      box-shadow: 0 0 40px rgba(6, 5, 10, 0.6);
+      padding: 40px 30px;
+    }
+
+    form * {
+      font-family: 'Poppins', sans-serif;
+      color: #ff0000;
+      letter-spacing: 0.5px;
+      outline: none;
+      border: none;
+      width: 100%;
+    }
+
+    form label {
+      margin: 10px 0 5px;
+      display: block;
+    }
+
+    form input[type="text"],
+    form input[type="password"],
+    form input[type="file"] {
+      background: rgba(255, 239, 239, 0.083);
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    form button {
+      width: 100%;
+      padding: 12px;
+      background: #00ffff;
+      border: none;
+      border-radius: 4px;
+      color: #000000;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background: #97eb76;
+    }
+
+    h2 {
+      text-align: center;
+      color: #000000;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff0000;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #1aa5b8;
+      color: #000000;
+      padding: 20px 0;
+      font-size: 14px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo-removebg-preview.png" alt="150" width="200">
+    <nav>
+      <a href="rutinas_y_equipos.html">Rutinas y equipos del GYM</a>
+      <a href="inicio_de_sesion.html">Inicio de sesión</a>
+      <a href="Carta responsiva.pdf" download class="boton-descarga">Descargar carta responsiva.</a>
+      <a href="pagina_principal.html"><img src="home-icon-vector-removebg-preview.png" width="40" alt="40"></a>
+    </nav>
+  </header>
+
+  <h1>Registro</h1>
+
+  <form id="registroForm" enctype="multipart/form-data" method="POST" action="conexion_registro.php">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <label for="matricula">Matrícula (11 Dígitos):</label>
+    <input type="text" id="matricula" name="matricula" required>
+
+    <label for="nss">N° S.S (11 Dígitos):</label>
+    <input type="text" id="nss" name="nss" required>
+
+    <label for="contrasena">Contraseña:</label>
+    <input type="password" id="contrasena" name="contrasena" required>
+
+    <label for="">Los archivos no deben sobrepasar el límite(MB/KB) <strong>NO DEBE SOBREPASAR LOS 2MB</strong> </label>
+
+    <label for="vigencia">Vigencia S.S. (PDF):</label>
+    <input type="file" id="vigencia" name="vigencia" accept="application/pdf" required>
+
+    <label for="certificado">Certificado Médico (PDF):</label>
+    <input type="file" id="certificado" name="certificado" accept="application/pdf" required>
+
+    <label for="credencial">Credencial Estudiantil (PDF):</label>
+    <input type="file" id="credencial" name="credencial" accept="application/pdf" required>
+
+    <label for="carta">Carta Responsiva (PDF) LA CARTA RESPONSIVA ESTA EN LA PARTE SUPERIOR DE LA PÁGINA EN EL MENÚ SOLAMENTE DARLE <br> 
+      CLICK A DONDE DICE "DESCARGAR CARTA RESPONSIVA Y AUTOMATICAMENTE SE DESCARGARA.":</label>
+    <input type="file" id="carta" name="carta" accept="application/pdf" required>
+
+    <button type="submit">Registrar</button>
+  </form>
+
+  <footer>
+    <h2>Contacto</h2>
+    <p>Número de teléfono o correo de la encargada.</p>
+    <p>GYM, UPT. (2025)</p>
+  </footer>
+
+<script>
+  document.getElementById('registroForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    // Validación de matrícula y NSS
+    const matricula = document.getElementById('matricula').value.trim();
+    const nss = document.getElementById('nss').value.trim();
+
+    if (matricula.length !== 11 || !/^\d{11}$/.test(matricula)) {
+      alert('La matrícula debe contener exactamente 11 dígitos numéricos.');
+      return;
+    }
+
+    if (nss.length !== 11 || !/^\d{11}$/.test(nss)) {
+      alert('El número de seguro social (NSS) debe contener exactamente 11 dígitos numéricos.');
+      return;
+    }
+
+    // Validación de tamaño de archivos (2MB)
+    const archivos = ['vigencia', 'certificado', 'credencial', 'carta'];
+    const limiteMB = 2;
+    const limiteBytes = limiteMB * 1024 * 1024;
+
+    for (let campo of archivos) {
+      const archivo = document.getElementById(campo).files[0];
+      if (archivo && archivo.size > limiteBytes) {
+        alert(`El archivo "${campo}" supera el límite de ${limiteMB}MB. Por favor, selecciona un archivo más ligero.`);
+        return;
+      }
+    }
+
+    // Enviar al servidor
+    fetch('conexion_registro.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(text => {
+      if (text.trim() === 'duplicado') {
+        alert("⚠️ La matrícula ya está registrada. Por favor, usa una diferente.");
+        return;
+      }
+
+      if (text.toLowerCase().includes('exitoso')) {
+        alert("🎉 Registro exitoso. ¡Ya puedes iniciar sesión para realizar tu reserva!");
+        form.reset();
+      } else {
+        alert(text);
+      }
+    })
+    .catch(error => {
+      alert('Error en la petición: ' + error);
+    });
+  });
+</script>
+
+</body>
+</html>
